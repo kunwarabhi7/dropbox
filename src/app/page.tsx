@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex items-center flex-col lg:flex-row bg-[#1E1919] dark:bg-slate-800 ">
-      <div className="p-10 flex flex-col bg-[#2B2929] dark:bg-slate-800 space-y-5 text-white ">
+    <main className="flex items-center flex-col lg:flex-row bg-[#1E1919] dark:bg-slate-800   ">
+      <div className="p-10 flex flex-col bg-[#2B2929] dark:bg-slate-800 space-y-5 text-white  ">
         <p className="text-5xl font-bold">
           Everything you and your business need to work efficiently, all in one
           place
