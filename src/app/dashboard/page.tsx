@@ -23,7 +23,6 @@ const Dashboard = async () => {
 
   return (
     <div className="border-t">
-      Dashboard
       <DropZoneComponents />
       <section className="container space-y-5">
         <h2 className="font-bold">All files</h2>
