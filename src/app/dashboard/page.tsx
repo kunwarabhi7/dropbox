@@ -19,7 +19,6 @@ const Dashboard = async () => {
     type: doc.data().type,
     size: doc.data().size,
   }));
-  console.log(skeltonFiles);
 
   return (
     <div className="border-t">

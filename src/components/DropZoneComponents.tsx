@@ -18,8 +18,6 @@ const DropZoneComponents = () => {
   const [loading, setLoading] = useState(false);
   const maxSize = 20971520;
   const { user, isLoaded, isSignedIn } = useUser();
-  const docRef = collection(db, `users/${user?.id}/files`);
-  const imageRef = ref(storage, `users/${user?.id}/files/${docRef?.id}`);
 
   const onDrop = async (acceptedFIles: File[]) => {
     acceptedFIles.forEach((file) => {
@@ -35,11 +33,11 @@ const DropZoneComponents = () => {
   const upLoadPost = async (selectedFile: File) => {
     try {
       if (loading) return;
-
+      if (!user) return;
       setLoading(true);
 
       // Add doc
-      const docData = {
+      const docRef = await addDoc(collection(db, `users/${user.id}/files`), {
         userId: user?.id,
         fileName: selectedFile.name,
         fullName: user?.fullName,
@@ -47,18 +45,18 @@ const DropZoneComponents = () => {
         timeStamp: serverTimestamp(),
         type: selectedFile.type,
         size: selectedFile.size,
-      };
+      });
 
-      const docRefResult = await addDoc(docRef, docData);
+      const imageRef = ref(storage, `users/${user.id}/files/${docRef.id}`);
 
       // Image storage
-      await uploadBytes(imageRef, selectedFile);
-
-      // Update doc
-      const downloadURL = await getDownloadURL(imageRef);
-      const fileDocRef = doc(db, `users/${user?.id}/files`, docRefResult.id);
-      await updateDoc(fileDocRef, { downloadURL });
-
+      await uploadBytes(imageRef, selectedFile).then(async (snapshot) => {
+        const downloadURL = await getDownloadURL(imageRef);
+        // Update doc
+        await updateDoc(doc(db, "users", user.id, "files", docRef.id), {
+          downloadURL: downloadURL,
+        });
+      });
       console.log("File uploaded successfully!");
     } catch (error) {
       console.error("Error during file upload:", error);

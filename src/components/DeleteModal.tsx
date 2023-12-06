@@ -3,15 +3,16 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useAppStore } from "../../store/store";
+import { useUser } from "@clerk/nextjs";
+import { deleteObject, ref } from "firebase/storage";
+import { db, storage } from "../../firebase";
+import { deleteDoc, doc } from "firebase/firestore";
 
 export function DeleteModal() {
   const [isDeleteModalOpen, setIsDeleteModalOpen, fileId, setFileId] =
@@ -21,6 +22,24 @@ export function DeleteModal() {
       state.fileId,
       state.setFileId,
     ]);
+
+  const { user } = useUser();
+
+  const deleteFile = async () => {
+    if (!user || !fileId) return;
+    const fileRef = ref(storage, `users/${user.id}/files/${fileId}`);
+
+    try {
+      deleteObject(fileRef).then(async () => {
+        deleteDoc(doc(db, "users", user.id, "files", fileId)).then(() => {
+          console.log("deleted");
+        });
+        setIsDeleteModalOpen(false);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Dialog
@@ -49,7 +68,7 @@ export function DeleteModal() {
             className="px-3 flex-1"
             size={"sm"}
             type="submit"
-            //   onClick={()=>deleteFile}
+            onClick={deleteFile}
           >
             <span className="sr-only">Delete</span>
             <span>Delete</span>
