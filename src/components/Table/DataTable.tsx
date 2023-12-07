@@ -20,6 +20,7 @@ import { Button } from "../ui/button";
 import { PencilIcon, TrashIcon } from "lucide-react";
 import { useAppStore } from "../../../store/store";
 import { DeleteModal } from "../DeleteModal";
+import RenameModal from "../RenameModal";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -39,7 +40,7 @@ export function DataTable<TData, TValue>({
   const [setFileId, setfilename, setIsDeleteModalOpen, setIsRenameModalOpen] =
     useAppStore((state) => [
       state.setFileId,
-      state.setFilename,
+      state.setFileName,
 
       state.setIsDeleteModalOpen,
       state.setIsRenameModalOpen,
@@ -83,6 +84,7 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
+                {/* <RenameModal /> */}
                 <DeleteModal />
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -97,16 +99,16 @@ export function DataTable<TData, TValue>({
                       </div>
                     ) : cell.column.id === "filename" ? (
                       <p
-                        onClick={() => {
-                          opanRenameModal(
-                            (row.original as FileType).id,
-                            (row.original as FileType).filename
-                          );
-                        }}
-                        className="underline flex items-center text-blue-500 hover:cursor-pointer"
+                      // onClick={() => {
+                      //   opanRenameModal(
+                      //     (row.original as FileType).id,
+                      //     (row.original as FileType).filename
+                      //   );
+                      // }}
+                      // className="underline flex items-center text-blue-500 hover:cursor-pointer"
                       >
                         {cell.getValue() as string}
-                        <PencilIcon />{" "}
+                        {/* <PencilIcon />{" "} */}
                       </p>
                     ) : (
                       flexRender(cell.column.columnDef.cell, cell.getContext())

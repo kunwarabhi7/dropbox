@@ -13,6 +13,7 @@ import {
 import { db, storage } from "../../firebase";
 import { useUser } from "@clerk/nextjs";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import toast from "react-hot-toast";
 
 const DropZoneComponents = () => {
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,7 @@ const DropZoneComponents = () => {
       if (loading) return;
       if (!user) return;
       setLoading(true);
-
+      const toastId = toast.loading("Uploading....");
       // Add doc
       const docRef = await addDoc(collection(db, `users/${user.id}/files`), {
         userId: user?.id,
@@ -57,12 +58,11 @@ const DropZoneComponents = () => {
           downloadURL: downloadURL,
         });
       });
-      console.log("File uploaded successfully!");
+      toast.success("File uploaded successfully!", { id: toastId });
+      setLoading(false);
     } catch (error) {
       console.error("Error during file upload:", error);
       // Handle error (display error message to the user, etc.)
-    } finally {
-      setLoading(false);
     }
   };
 

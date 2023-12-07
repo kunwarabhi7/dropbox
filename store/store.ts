@@ -10,16 +10,16 @@ interface AppState {
   fileId: string | null;
   setFileId: (fieldId: string) => void;
 
-  filename: string;
-  setFilename: (filename: string) => void;
+  fileName: string;
+  setFileName: (filename: string) => void;
 }
 
 export const useAppStore = create<AppState>()((set) => ({
   fileId: null,
   setFileId: (fileId: string) => set((state) => ({ fileId })),
 
-  filename: "",
-  setFilename: (filename: string) => set((state) => ({ filename })),
+  fileName: "",
+  setFileName: (fileName: string) => set((state) => ({ fileName })),
 
   isDeletedModalOpen: false,
   setIsDeleteModalOpen: (opan) =>
