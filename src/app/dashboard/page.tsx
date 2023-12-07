@@ -21,7 +21,7 @@ const Dashboard = async () => {
   }));
 
   return (
-    <div className="border-t m-8 rounded-lg">
+    <div className="border-t m-8 rounded-md">
       <DropZoneComponents />
       <section className="container space-y-5">
         <h2 className="font-bold mt-4">All files</h2>
