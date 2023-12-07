@@ -21,10 +21,10 @@ const Dashboard = async () => {
   }));
 
   return (
-    <div className="border-t">
+    <div className="border-t m-8 rounded-lg">
       <DropZoneComponents />
       <section className="container space-y-5">
-        <h2 className="font-bold">All files</h2>
+        <h2 className="font-bold mt-4">All files</h2>
         <div>
           <TableWrapper skeltonFiles={skeltonFiles} />
         </div>
